@@ -23,7 +23,8 @@ int main(){
     engine.register_command(&wrapper_NumSens, "numsens");
 
     std::cout << engine.execute("find", {  {"arg1", std::string("ut labore et")}}) << "\n\n";
-    std::cout << engine.execute("replace", {  {"arg1", std::string("molit")}, {"arg2", std::string("ne molit")} }) << "\n\n";
+    std::cout << engine.execute("find", {  {"arg1", std::string("ut labore ets")}}) << "\n\n";
+    std::cout << engine.execute("replace", {  {"arg1", std::string("mollit")}, {"arg2", std::string("ne mollit")} }) << "\n\n";
     std::cout << engine.execute("capwords") << "\n\n";
     std::cout << engine.execute("capsens") << "\n\n";
     std::cout << engine.execute("numsens") << "\n\n";

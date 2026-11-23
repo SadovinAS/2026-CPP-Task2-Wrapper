@@ -1,13 +1,14 @@
 #include "strchanger.h"
 
 std::string StringChanger::Replace(const std::string& From, const std::string& Tor) {
-	std::string MainStr(Str);
 	if (MainStr.empty()) {
 		return "";
 	}
-	std::size_t pos;
-	while ((pos = MainStr.find(From)) != std::string::npos) {
-		MainStr.replace(pos, From.length(), Tor);
+	std::string MainStr(Str);
+	std::size_t pos = MainStr.find(From);
+	while (pos != std::string::npos) {
+		MainStr.replace(pos, From.length(), To);
+		pos = MainStr.find(From, pos + To.length());
 	}
 	return MainStr;
 }
@@ -18,10 +19,10 @@ bool StringChanger::Find(const std::string& What) {
 	return Str.find(What) != std::string::npos;
 }
 std::string StringChanger::CapitalizeWords() {
-	std::string MainStr(Str);
 	if (MainStr.empty()) {
 		return "";
 	}
+	std::string MainStr(Str);
 	if (std::isalpha(MainStr[0]) != 0) {
 		MainStr[0] = static_cast<char>(std::toupper(MainStr[0]));
 	}
@@ -33,10 +34,10 @@ std::string StringChanger::CapitalizeWords() {
 	return MainStr;
 }
 std::string StringChanger::CapitalizeSentences() {
-	std::string MainStr(Str);
 	if (MainStr.empty()) {
 		return "";
 	}
+	std::string MainStr(Str);
 	bool newSent = true;
 	for (char &simb : MainStr) {
 		if (std::isalpha(simb) != 0 && newSent) {
@@ -50,10 +51,10 @@ std::string StringChanger::CapitalizeSentences() {
 	return MainStr;
 }
 std::string StringChanger::NumberSentences() {
-	std::string MainStr(Str);
 	if (MainStr.empty()) {
 		return "";
 	}
+	std::string MainStr(Str);
 	bool newSent = false;
 	int counter = 1;
 	MainStr.insert(0, "1. ");
