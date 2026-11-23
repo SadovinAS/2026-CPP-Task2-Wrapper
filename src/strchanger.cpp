@@ -1,7 +1,7 @@
 #include "strchanger.h"
 
 std::string StringChanger::Replace(const std::string& From, const std::string& Tor) {
-	if (MainStr.empty()) {
+	if (Str.empty()) {
 		return "";
 	}
 	std::string MainStr(Str);
@@ -19,7 +19,7 @@ bool StringChanger::Find(const std::string& What) {
 	return Str.find(What) != std::string::npos;
 }
 std::string StringChanger::CapitalizeWords() {
-	if (MainStr.empty()) {
+	if (Str.empty()) {
 		return "";
 	}
 	std::string MainStr(Str);
@@ -34,7 +34,7 @@ std::string StringChanger::CapitalizeWords() {
 	return MainStr;
 }
 std::string StringChanger::CapitalizeSentences() {
-	if (MainStr.empty()) {
+	if (Str.empty()) {
 		return "";
 	}
 	std::string MainStr(Str);
@@ -51,7 +51,7 @@ std::string StringChanger::CapitalizeSentences() {
 	return MainStr;
 }
 std::string StringChanger::NumberSentences() {
-	if (MainStr.empty()) {
+	if (Str.empty()) {
 		return "";
 	}
 	std::string MainStr(Str);
