@@ -12,7 +12,7 @@
 Wrapper wrapper(&subj, &Subject::func, {{"arg1", 0}, {"arg2", 0}});
 Engine engine;
 engine.register_command(&wrapper, "command_name"); 
-std::cout << engine.execute("command_name", {{"arg1", 4}, {"arg2", 5}}) << std::endl;
+cout << engine.execute("command_name", {{"arg1", 4}, {"arg2", 5}}) << endl;
 ```
 
 ---

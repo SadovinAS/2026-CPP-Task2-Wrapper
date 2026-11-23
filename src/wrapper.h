@@ -1,44 +1,45 @@
-#include <iostream>
+#pragma once
 #include <string>
 #include <map>
 #include <any>
 
 class BigWrapper {
 public:
-	BigWrapper() {}
+	BigWrapper() = default;
+	virtual ~BigWrapper() = default;
+	virtual std::string Execute(const std::map<std::string, std::any>& NewArgList) = 0;
 	virtual std::string Execute() = 0;
 };
 
 
 template <typename SubjectType, typename RetFuncType, typename ...Args>
 class Wrapper : public BigWrapper{
-public:
+private:
 	SubjectType* Subject;
 	RetFuncType(SubjectType::*SubjectFunc)(Args...);
-	std::map<std::string, std::any> ArgList;
+	const std::map<std::string, std::any> DefaultArgList;
 
-	Wrapper(SubjectType* Subj, RetFuncType(SubjectType::*SubjFunc)(Args...), const std::map<std::string, std::any>& List) : Subject(Subj), SubjectFunc(SubjFunc), ArgList(List)
-	{}
-	
-	std::string Execute() override {
-		return std::to_string(Execute2(std::index_sequence_for<Args...>()));
+	template <typename Arg, std::size_t I>
+	Arg GetArg(const std::map<std::string, std::any>& NewArgList) {
+		std::string st = "arg" + std::to_string(I + 1);
+		return std::any_cast<Arg>(NewArgList.count(st) ? NewArgList.at(st) : DefaultArgList.at(st));
 	}
+
 	template <std::size_t ...Is>
-	RetFuncType Execute2(std::index_sequence<Is...>) {
-		std::string arg = "arg";
-		return (Subject->*SubjectFunc)(std::any_cast<Args>(ArgList[arg + std::to_string(Is + 1)])...);
-	}
-};
+	RetFuncType Execute2(std::index_sequence<Is...>, const std::map<std::string, std::any>& NewArgList) { return (Subject->*SubjectFunc)(GetArg<Args, Is>(NewArgList)...); }
 
-class Engine {
+	template <std::size_t ...Is>
+	RetFuncType Execute2(std::index_sequence<Is...>) { return (Subject->*SubjectFunc)(std::any_cast<Args>(DefaultArgList.at("arg" + std::to_string(Is + 1)))...); }
+	
+	std::string toString(const std::string& str) { return str; }
+	template <typename type>
+	std::string toString(const type& str) { return std::to_string(str); }
+
 public:
-	std::map < std::string, BigWrapper* > List;
-		
-	void add(BigWrapper* wrapper, const std::string& command_name) {
-		List[command_name] = wrapper;
-	}
+	Wrapper(SubjectType* Subj, RetFuncType(SubjectType::* SubjFunc)(Args...), std::map<std::string, std::any> List) : Subject(Subj), SubjectFunc(SubjFunc), DefaultArgList(std::move(List)) {}
 
-	std::string execute(std::string command_name) {
-		return List[command_name]->Execute();
-	}
+	std::string Execute(const std::map<std::string, std::any>& NewArgList) override { return toString(Execute2(std::index_sequence_for<Args...>(), NewArgList));  }
+
+	std::string Execute() override { return toString(Execute2(std::index_sequence_for<Args...>())); }
+
 };
