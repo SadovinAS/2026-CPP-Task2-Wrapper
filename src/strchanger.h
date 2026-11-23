@@ -2,10 +2,13 @@
 #include <string>
 
 class StringChanger {
+private:
+	std::string Str;
 public:
-	std::string Replace(std::string MainStr, const std::string& From, const std::string& Tor);
-	bool Find(const std::string& MainStr, const std::string& What);
-	std::string CapitalizeWords(std::string MainStr);
-	std::string CapitalizeSentences(std::string MainStr);
-	std::string NumberSentences(std::string MainStr);
+	StringChanger(std::string &str) : Str(str) {}
+	std::string Replace(const std::string& From, const std::string& Tor);
+	bool Find(const std::string& What);
+	std::string CapitalizeWords();
+	std::string CapitalizeSentences();
+	std::string NumberSentences();
 };
