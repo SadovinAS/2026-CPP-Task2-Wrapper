@@ -4,7 +4,7 @@ std::string StringChanger::Replace(std::string MainStr, const std::string& From,
 	if (MainStr.empty()) {
 		return "";
 	}
-	int pos;
+	std::size_t pos;
 	while ((pos = MainStr.find(From)) != std::string::npos) {
 		MainStr.replace(pos, From.length(), Tor);
 	}
@@ -23,11 +23,9 @@ std::string StringChanger::CapitalizeWords(std::string MainStr) {
 	if (std::isalpha(MainStr[0])) {
 		MainStr[0] = std::toupper(MainStr[0]);
 	}
-	for (int i = 0; i < MainStr.size() - 1; i++) {
-		if ((std::isspace(MainStr[i]) || std::ispunct(MainStr[i]))){
-			if (std::isalpha(MainStr[i + 1])) {
-				MainStr[i + 1] = std::toupper(MainStr[i + 1]);
-			}
+	for (std::size_t i = 0; i < MainStr.size() - 1; i++) {
+		if ((std::isspace(MainStr[i]) || std::ispunct(MainStr[i])) && std::isalpha(MainStr[i + 1])){
+			MainStr[i + 1] = std::toupper(MainStr[i + 1]);
 		}
 	}
 	return MainStr;
@@ -37,7 +35,7 @@ std::string StringChanger::CapitalizeSentences(std::string MainStr) {
 		return "";
 	}
 	bool newSent = true;
-	for (int i = 0; i < MainStr.size(); i++) {
+	for (std::size_t i = 0; i < MainStr.size(); i++) {
 		if (std::isalpha(MainStr[i]) && newSent) {
 			MainStr[i] = std::toupper(MainStr[i]);
 			newSent = false;
@@ -55,7 +53,7 @@ std::string StringChanger::NumberSentences(std::string MainStr) {
 	bool newSent = false;
 	int counter = 1;
 	MainStr.insert(0, "1. ");
-	for (int i = 4; i < MainStr.size(); i++) {
+	for (std::size_t i = 4; i < MainStr.size(); i++) {
 		if (std::isalpha(MainStr[i]) && newSent) {
 			std::string csim = std::to_string(++counter) + ". ";
 			MainStr.insert(i, csim);
