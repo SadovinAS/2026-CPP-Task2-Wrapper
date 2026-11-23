@@ -7,8 +7,8 @@ std::string StringChanger::Replace(const std::string& From, const std::string& T
 	std::string MainStr(Str);
 	std::size_t pos = MainStr.find(From);
 	while (pos != std::string::npos) {
-		MainStr.replace(pos, From.length(), To);
-		pos = MainStr.find(From, pos + To.length());
+		MainStr.replace(pos, From.length(), Tor);
+		pos = MainStr.find(From, pos + Tor.length());
 	}
 	return MainStr;
 }
