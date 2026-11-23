@@ -40,7 +40,7 @@ std::string StringChanger::CapitalizeSentences() {
 	bool newSent = true;
 	for (char &c : MainStr) {
 		if (std::isalpha(c) != 0 && newSent) {
-			MainStr[i] = static_cast<char>(std::toupper(c));
+			c = static_cast<char>(std::toupper(c));
 			newSent = false;
 		}
 		else if (c == '.' || c == '!' || c == '?') {
