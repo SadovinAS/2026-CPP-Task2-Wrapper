@@ -38,12 +38,12 @@ std::string StringChanger::CapitalizeSentences() {
 		return "";
 	}
 	bool newSent = true;
-	for (char &c : MainStr) {
-		if (std::isalpha(c) != 0 && newSent) {
-			c = static_cast<char>(std::toupper(c));
+	for (char &simb : MainStr) {
+		if (std::isalpha(simb) != 0 && newSent) {
+			simb = static_cast<char>(std::toupper(simb));
 			newSent = false;
 		}
-		else if (c == '.' || c == '!' || c == '?') {
+		else if (simb == '.' || simb == '!' || simb == '?') {
 			newSent = true;
 		}
 	}
